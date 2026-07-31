@@ -13,3 +13,10 @@ FACE_OUTPUT = os.path.join(BASE_DIR, "dataset", "processed", "faces")
 # Image Settings
 FRAME_INTERVAL = 10
 IMAGE_SIZE = (224, 224)
+
+MODEL_DIR = os.path.join(BASE_DIR, "models")
+
+YUNET_MODEL = os.path.join(
+    MODEL_DIR,
+    "face_detection_yunet_2023mar.onnx"
+)
