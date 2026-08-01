@@ -55,47 +55,70 @@ def process_image(detector, image_path, output_path):
     
 def process_video(detector, input_folder, output_folder):
 
-    for image_name in os.listdir(input_folder):
+    image_count = 0
+    success_count = 0
+
+    for image_name in sorted(os.listdir(input_folder)):
 
         input_path = os.path.join(input_folder, image_name)
-
         output_path = os.path.join(output_folder, image_name)
 
-        process_image(
-            detector,
-            input_path,
-            output_path
-        )
+        image = cv2.imread(input_path)
+
+        if image is None:
+            continue
+
+        faces = detect_face(detector, image)
+
+        image_count += 1
+
+        if faces is None:
+            continue
+
+        x, y, w, h = faces[0][:4].astype(int)
+
+        face = image[y:y+h, x:x+w]
+
+        face = cv2.resize(face, IMAGE_SIZE)
+
+        os.makedirs(output_folder, exist_ok=True)
+
+        cv2.imwrite(output_path, face)
+
+        success_count += 1
+
+    print(f"   Processed: {image_count} images | Faces Saved: {success_count}")
         
 def process_dataset(detector):
 
+    print("=" * 50)
+    print("Starting Face Extraction...")
+    print("=" * 50)
+
     for label in ["real", "fake"]:
 
-        input_root = os.path.join(FRAME_OUTPUT, label)
+        print(f"\nProcessing {label.upper()} videos")
 
+        input_root = os.path.join(FRAME_OUTPUT, label)
         output_root = os.path.join(FACE_OUTPUT, label)
 
-        for video_folder in os.listdir(input_root):
+        for video_folder in sorted(os.listdir(input_root)):
 
-            input_folder = os.path.join(
-                input_root,
-                video_folder
-            )
+            print(f"-> {video_folder}")
 
-            output_folder = os.path.join(
-                output_root,
-                video_folder
-            )
-
-            os.makedirs(output_folder, exist_ok=True)
-
-            print(f"Processing {video_folder}...")
+            input_folder = os.path.join(input_root, video_folder)
+            output_folder = os.path.join(output_root, video_folder)
 
             process_video(
                 detector,
                 input_folder,
                 output_folder
             )
+
+    print("\n")
+    print("=" * 50)
+    print("Face Extraction Completed Successfully!")
+    print("=" * 50)
     
 if __name__ == "__main__":
 
