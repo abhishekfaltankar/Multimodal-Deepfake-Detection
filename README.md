@@ -1,69 +1,108 @@
 # Multimodal Deepfake Detection
 
-A Final Year B.Tech (AI & DS) project focused on detecting deepfake videos using deep learning. This project aims to analyze both visual and audio information to classify videos as real or fake.
+This is my Final Year B.Tech (Artificial Intelligence & Data Science) project. The objective of this project is to detect whether a video is real or deepfake using deep learning. The project follows a complete pipeline from dataset preparation and preprocessing to model training and deployment.
 
-## Project Objective
+---
 
-The goal of this project is to build a deepfake detection system by:
+## Project Overview
 
-- Extracting frames from videos
-- Detecting and cropping faces
-- Training a deep learning model on face images
-- Building a Streamlit application for prediction
+The project consists of the following stages:
+
+- Video dataset preparation
+- Frame extraction from videos
+- Face detection and cropping
+- Dataset creation for deep learning
+- Transfer learning using EfficientNet-B0
+- Model training and evaluation
+- Streamlit web application for prediction
 
 ---
 
 ## Current Progress
 
-### ✅ Phase 1: Project Setup
+### Phase 1 - Project Setup
 - Created project structure
 - Configured Git and GitHub repository
-- Organized dataset folders
+- Created Python 3.11 virtual environment
+- Installed all required dependencies
 
-### ✅ Phase 2: Dataset Preparation
+### Phase 2 - Dataset Preparation
 - Downloaded Celeb-DF dataset
-- Created a sample dataset for testing
-- Organized Real and Fake videos
+- Created a sample dataset for development
+- Organized Real and Fake video folders
 
-### ✅ Phase 3: Frame Extraction
+### Phase 3 - Frame Extraction
 - Extracted frames from sample videos
-- Stored frames in a structured directory
+- Stored extracted frames in a structured directory
 
-### ✅ Phase 4: Face Detection
-- Switched to Python 3.11 virtual environment for compatibility
-- Installed OpenCV 4.10
+### Phase 4 - Face Detection
 - Integrated OpenCV YuNet Face Detector
-- Successfully detected faces from extracted frames
-- Verified face detection on a sample image
+- Detected faces from extracted frames
+- Cropped detected faces
+- Resized all face images to 224 × 224
+- Automatically generated processed face dataset
+
+### Phase 5 - Deep Learning Pipeline
+- Created a custom PyTorch Dataset
+- Loaded all processed face images automatically
+- Assigned labels for Real and Fake images
+- Implemented DataLoader
+- Split dataset into Training, Validation and Testing sets
+- Integrated pretrained EfficientNet-B0
+- Modified classifier for binary classification (Real / Fake)
+- Successfully tested the model using dummy input
+
+---
+
+## Dataset
+
+Dataset Used:
+
+- Celeb-DF v2
+
+Current Dataset:
+
+- 20 Sample Videos
+- 849 Cropped Face Images
+
+Dataset Split:
+
+- Training Images: 594
+- Validation Images: 127
+- Testing Images: 128
 
 ---
 
 ## Project Structure
 
-```
+```text
 Multimodal-Deepfake-Detection/
 │
 ├── app/
+│
 ├── dataset/
 │   ├── raw/
 │   ├── sample/
 │   └── processed/
-│       ├── audio/
 │       ├── frames/
-│       └── faces/
+│       ├── faces/
+│       └── audio/
 │
 ├── models/
-│
-├── outputs/
+│   ├── efficientnet.py
+│   └── face_detection_yunet_2023mar.onnx
 │
 ├── preprocessing/
 │   ├── extract_frames.py
 │   └── detect_faces.py
 │
 ├── training/
-├── utils/
+│   ├── dataset.py
+│   ├── train.py
+│   └── evaluate.py
 │
 ├── reports/
+├── utils/
 │
 ├── config.py
 ├── requirements.txt
@@ -75,43 +114,68 @@ Multimodal-Deepfake-Detection/
 ## Technologies Used
 
 - Python 3.11
+- PyTorch
+- Torchvision
 - OpenCV
 - YuNet Face Detector
-- PyTorch (Upcoming)
-- Streamlit (Upcoming)
+- NumPy
+- Pandas
+- Pillow
+- Streamlit
 
 ---
 
 ## Current Workflow
 
-```
-Videos
-   │
-   ▼
-Frame Extraction ✅
-   │
-   ▼
-Face Detection ✅
-   │
-   ▼
-Face Cropping (Next)
-   │
-   ▼
-Dataset Preparation
-   │
-   ▼
-Deep Learning Model Training
-   │
-   ▼
-Evaluation
-   │
-   ▼
+```text
+Video Dataset
+      │
+      ▼
+Frame Extraction
+      │
+      ▼
+Face Detection
+      │
+      ▼
+Face Cropping
+      │
+      ▼
+Image Preprocessing
+      │
+      ▼
+PyTorch Dataset
+      │
+      ▼
+DataLoader
+      │
+      ▼
+EfficientNet-B0
+      │
+      ▼
+Model Training
+      │
+      ▼
+Prediction
+      │
+      ▼
 Streamlit Web Application
 ```
 
 ---
 
-## Virtual Environment
+## Setup
+
+Clone the repository
+
+```bash
+git clone https://github.com/abhishekfaltankar/Multimodal-Deepfake-Detection.git
+```
+
+Move into the project
+
+```bash
+cd Multimodal-Deepfake-Detection
+```
 
 Create virtual environment
 
@@ -119,7 +183,7 @@ Create virtual environment
 py -3.11 -m venv venv
 ```
 
-Activate (Windows)
+Activate virtual environment
 
 ```bash
 venv\Scripts\activate
@@ -135,24 +199,28 @@ pip install -r requirements.txt
 
 ## Completed
 
-- [x] Project structure
-- [x] Dataset organization
-- [x] Sample dataset creation
+- [x] Project setup
+- [x] Dataset preparation
 - [x] Frame extraction
-- [x] Python 3.11 virtual environment
-- [x] OpenCV installation
-- [x] YuNet model integration
-- [x] Face detection on sample frame
-
-## Upcoming
-
-- [ ] Face extraction for entire dataset
-- [ ] Image preprocessing
-- [ ] Deep learning model training
-- [ ] Model evaluation
-- [ ] Streamlit application
-- [ ] Final testing
+- [x] Face detection
+- [x] Face cropping
+- [x] Image preprocessing
+- [x] Custom PyTorch Dataset
+- [x] DataLoader
+- [x] EfficientNet-B0 integration
 
 ---
 
-This repository documents the development of my final year deepfake detection project from dataset preparation to model deployment.
+## Remaining Work
+
+- [ ] Model training
+- [ ] Validation and testing
+- [ ] Performance evaluation
+- [ ] Model saving
+- [ ] Prediction module
+- [ ] Streamlit web application
+- [ ] Final documentation
+
+---
+
+This repository contains the complete development process of our final year project, starting from dataset preparation to building a deep learning-based deepfake detection system using transfer learning.
